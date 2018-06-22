@@ -1,0 +1,2 @@
+# MySolr
+Solr Test
