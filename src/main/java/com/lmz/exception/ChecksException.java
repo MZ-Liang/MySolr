@@ -1,5 +1,9 @@
 package com.lmz.exception;
 
+/**
+ * 自定义检查异常
+ *
+ */
 public class ChecksException extends Exception{
 	private static final long serialVersionUID = 1L;
 

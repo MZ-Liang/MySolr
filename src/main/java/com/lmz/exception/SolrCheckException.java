@@ -1,7 +1,7 @@
 package com.lmz.exception;
 
 /**
- * solr检查异常
+ * 自定义solr检查异常
  *
  */
 public class SolrCheckException extends Exception {

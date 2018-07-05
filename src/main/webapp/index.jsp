@@ -8,26 +8,22 @@
 <script type="text/javascript" src="${root}/resources/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$("#btn").click(function(){
-			var url='${root}/addDocument';
-			var text=$("#text");
-			$.post(url,{},function(res){
-				alert(res);
-			});
+		$("#del").click(function(){
+			if(confirm('确定删除全部索引？')){
+				var url='${root}/del';
+				$.post(url,{},function(res){
+					alert(res);
+				});
+			}
 		});
 		
-		$("#home").click(function(){
-			var url='${root}/home';
-			$.post(url,{},function(res){
-				text.text(res);
-			})
-		});
-	})
+	});
 </script>
 </head>
 <body>
-	<button id="btn">addDocument</button>
-	<button id="home">home</button>
-	<p id="text"></p>
+	<a href="${root}/add.jsp">添加索引</a><br/>
+	<a href="${root}/search.jsp">搜索</a><br/>
+	<a href="javascript:void(0)" id='del'>删除全部索引</a><br/>
+	<p>${msg}</p>
 </body>
 </html>

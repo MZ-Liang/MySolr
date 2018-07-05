@@ -11,8 +11,7 @@ import org.apache.log4j.Logger;
  *
  */
 public class ApplicationListener implements ServletContextListener {
-	private static final Logger LOGGER=Logger.getLogger(ApplicationListener.class);
-
+	
     /**
      * Default constructor. 
      */
@@ -31,10 +30,8 @@ public class ApplicationListener implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent sce)  { 
-         // TODO Auto-generated method stub
     	ServletContext applicationContext=sce.getServletContext();
     	applicationContext.setAttribute("root", applicationContext.getContextPath());
-    	LOGGER.debug(applicationContext.getContextPath());
     }
 	
 }

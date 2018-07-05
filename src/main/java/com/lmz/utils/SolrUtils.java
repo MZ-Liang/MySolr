@@ -12,13 +12,16 @@ import org.apache.solr.common.SolrInputDocument;
 
 import com.lmz.exception.SolrCheckException;
 
+/**
+ * solr工具类
+ *
+ */
 public class SolrUtils {
 	private static HttpSolrClient solrClient;
-	private static final String URL="http://localhost:8080/solr/solr_core";
 	
-	public SolrUtils(){
+	public SolrUtils(String url){
 	    //初始化solrClient
-		solrClient=new HttpSolrClient.Builder(URL).build();
+		solrClient=new HttpSolrClient.Builder(url).build();
 		solrClient.setConnectionTimeout(1000);
 		solrClient.setSoTimeout(1000);
 	}
@@ -60,6 +63,41 @@ public class SolrUtils {
 	}
 	
 	/**
+	 * 添加bean对象到全文检索
+	 * @param object
+	 * @throws IOException
+	 * @throws SolrServerException
+	 * @throws SolrCheckException
+	 */
+	public void addByBean(Object object) throws IOException, SolrServerException, SolrCheckException {
+		UpdateResponse response=solrClient.addBean(object);
+		if (response.getStatus() == 0) {
+			solrClient.commit();
+		} else {
+			throw new SolrCheckException("solr add error");
+		}
+	}
+	
+	/**
+	 * 添加bean对象到全文检索
+	 * 
+	 * @param document
+	 * @throws IOException
+	 * @throws SolrServerException
+	 * @throws SolrCheckException
+	 */
+	public void addByBean(Collection<Object> objects) throws IOException, SolrServerException, SolrCheckException {
+		if (objects != null && objects.size() > 0) {
+			UpdateResponse response = solrClient.addBeans(objects);
+			if (response.getStatus() == 0) {
+				solrClient.commit();
+			} else {
+				throw new SolrCheckException("solr add error");
+			}
+		}
+	}
+	
+	/**
 	 * 在全文检索中移除对象
 	 * 
 	 * @param id
@@ -90,6 +128,22 @@ public class SolrUtils {
 			solrClient.commit();
 		} else{
 			throw new SolrCheckException("solr delete error");
+		}
+	}
+	
+	/**
+	 * 删除全文检索的所有对象
+	 * 
+	 * @throws SolrServerException
+	 * @throws IOException
+	 * @throws SolrCheckException
+	 */
+	public void deleteAll() throws SolrServerException, IOException, SolrCheckException {
+		UpdateResponse response=solrClient.deleteByQuery("*");
+		if (response.getStatus()==0) {
+			solrClient.commit();
+		} else {
+			throw new SolrCheckException("solr delete all error");
 		}
 	}
 	
